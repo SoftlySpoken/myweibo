@@ -8,10 +8,10 @@ class Connection:
     def __init__(self):
         # self.IP = "172.31.222.78"
         # self.Port = 9001
-        self.IP = "127.0.0.1"
+        self.IP = "39.101.65.125"
         self.Port = 9000
         self.username = "root"
-        self.password = "123456"
+        self.password = "Dell2020"
         self.db_name = "weibo"
         self.con = GstoreConnector.GstoreConnector(self.IP, self.Port, self.username, self.password)
 
