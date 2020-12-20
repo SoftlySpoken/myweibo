@@ -1,0 +1,35 @@
+<nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header navbar-left">
+            <a class="navbar-brand" href="#"><strong>MyWeibo</strong></a>
+        </div>
+        <div>
+            <ul class="nav navbar-nav navbar-left">
+                <li><a href="{% url 'Square' %}">我的动态</a></li>
+                <li><a href="{% url 'MySpace' %}?userid={{request.session.user}}">个人天地</a></li>
+                <li><a href="{% url 'Recommend' %}">推荐广场</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        相关链接
+                        <b class="caret"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="https://github.com/pkumod/gStore">gStore链接</a></li>
+                        <li><a href="https://www.weibo.com/login.php/">微博链接</a></li>
+                        <li><a href="https://mod.icst.pku.edu.cn/">PKUMOD实验室</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="请在此处输入用户昵称">
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right"> 
+                <li><a href="{% url 'UserInfoPage' %}"><span class="glyphicon glyphicon-user"></span> 您好！{{request.session.username}}</a></li> 
+                <li><a href="{% url 'LogOut' %}"><span class="glyphicon glyphicon-log-in"></span> 注销</a></li> 
+            </ul>
+        </div>
+    </div>
+</nav>

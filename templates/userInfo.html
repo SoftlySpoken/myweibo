@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录MyWeibo</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/myCss.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body  style="background-image:url({% static 'img/back.jpg' %})">
+{% include "nav.html" %}
+{% include "message.html" %}
+<div class="container">
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    我的个人故事
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="row" style="width: 100%;">
+                    <div class="col-md-5" style="text-indent: 5em">
+                        <p>你喜欢大家叫你<strong>{{username}}</strong>，</p>
+                        <p>你来自<strong>{{location}}</strong>,</p>
+                        <p>你是一位<strong>{{sex}}</strong>,</p>
+                        <p>需要的话，可以打<strong>{{userid}}</strong>找你。</p>
+                        <br>
+                        <p>在<strong>{{duration}}</strong>，我们第一次见面了</p>
+                        <p>在这里，你收获了<strong>{{fans}}</strong>位小迷弟&小迷妹</p>
+                        <p>在这里，你follow了<strong>{{follow}}</strong>位你想要了解的ta</p>
+                        <p>在这里，你分享了<strong>{{weiboCount}}</strong>次你的生活</p>
+                    </div>
+                    <div class="col-md-5 align-items-center" style="text-align:center">
+                        <h3>故事还在继续...</h3>
+                        <img src="{% static 'img/head.png' %}" class="img-thumbnail img-responsive">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    我要修改
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div class="row" style="width: 100%;">
+                    <form class="form-horizontal col-sm-offset-3 col-md-offset-3 rounded" id="register_form"  method="POST">
+                    {%csrf_token%}
+                        <div class="col-sm-9 col-md-9">
+                            <div>
+                                <label class="fa fa-envelope fa-lg">我的昵称应该是：</label>
+                                <input class="form-control" type="text" placeholder="请输入您的修改后的昵称" name="nickname"/>
+                            </div>
+                            <br>
+                            <div>
+                                <div class="col-md-6">
+                                    <label class="fa fa-envelope fa-lg">我其实来自这个省：</label>
+                                    <input class="form-control eamil" type="text" placeholder="请输入您修改后所在的省份" name="province"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="fa fa-envelope fa-lg">我其实来自这个城市：</label>
+                                    <input class="form-control eamil" type="text" placeholder="请输入您修改后所在的城市" name="city"/>
+                                </div>
+                            </div>
+                            <br>
+                            <div>
+                                <div class="radio-inline">
+                                    <label><input type="radio" name="optradio" value="m">我是男生</label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label><input type="radio" name="optradio" value="f">我是女生</label>
+                                </div>
+                            </div>
+                            <br>
+                            <a>
+                                <input type="submit" class="btn btn-success pull-right" value="确认修改 "/>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>欢迎页-MyWeibo</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="jumbotron">
+    <div class="container" style="min-height: 300px;">
+
+    </div>
+    <div class="container" style="min-height: 1200px;">
+        <h1>{{greeting}}</h1>
+        <p>为了您更好的用户体验，您需要登录账号才能使用MyWeibo，感谢支持！</p>
+        <p><a class="btn btn-primary btn-lg" role="button" href="{% url 'LoginPage'%}">
+            马上登录</a>
+        </p>
+        <p><a class="btn btn-primary btn-lg" role="button" href="{%url 'RegisPage'%}">
+            我去注册</a>
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

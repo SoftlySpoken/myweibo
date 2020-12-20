@@ -1,0 +1,19 @@
+<div class="p-2" style="width: 100%;">
+    <div class="container">
+        <div class="panel panel-default m-auto" style=" float: none;display: block;margin-left: auto;margin-right: auto;">
+            <div class="panel-body" >
+                <form role="form" class="row form-horizontal" style="width: 80%; float: none;display: block;margin-left: auto;margin-right: auto;" action="/addComment">
+                    <div class="row">
+                        <label for="weiboc">转发微博并加上你的留言吧！（140字以内）</label>
+                        <textarea class="form-control" rows="3" name="content" id="weiboc" placeholder="请在此处输入您的转发内容！"></textarea>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <input type="hidden" name="weiboid" value = "{{weibo.weiboId}}">
+                        <button type="submit" class="btn btn-default">转发</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录MyWeibo</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-image:url({% static 'img/back.jpg' %})">
+{% include "nav.html" %}
+{% include "message.html" %}
+<div class="container">
+    <div class="row" style="min-height: 50px">
+
+    </div>
+    <div class="form row">
+    {%csrf_token%}
+        <div class="panel panel-default" style="background-color: white">
+            <div class="panel-body">
+                <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="login_form" action="{% url 'LoginCheck'  %}" method="POST">
+                    <br>
+                    <br>
+                    <h3 class="form-title">登录MyWeibo</h3>
+                    <div class="col-sm-9 col-md-9">
+                        <div>
+                            <i class="fa fa-user fa-lg"></i>
+                            <input class="form-control required" type="text" placeholder="请输入您的手机号码" name="userid" autofocus="autofocus" maxlength="20"/>
+                        </div>
+                        <br />
+                        <div>
+                            <i class="fa fa-lock fa-lg"></i>
+                            <input class="form-control required" type="password" placeholder="请输入您的密码" name="password" maxlength="8"/>
+                        </div>
+                        <div>
+                            <hr />
+                            <a href="{% url 'RegisPage'  %}" id="register_btn" class="">还没有账户？马上注册！</a>
+                        </div>
+                        <div>
+                            <input type="submit" class="btn btn-success pull-right" value="登录！ "/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+</html>

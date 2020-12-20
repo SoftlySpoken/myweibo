@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>微博详情</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color:lightgray">
+{% include "nav.html" %}
+{% include "message.html" %}
+<div class="container d-flex flex-column mb-3" style=" width:100%;float: none;display: block;margin-left: auto;margin-right: auto;background-color: lightgray">
+    
+    {% include 'weibohead.html' %}
+
+    <div class="p-2" style="width: 100%">
+        <div class="container">
+            <ul class="breadcrumb" style="float: none;display: block;margin-left: auto;margin-right: auto;">
+                <li><span>您当前在：</span></li>
+                <li><a href="#">欢迎页</a></li>
+                <li><a href="#">微博详情</a></li>
+                <li><span>您可以参与讨论，分享见解</span></li>
+            </ul>
+        </div>
+    </div>
+
+    {% include "sendTransfer.html" %} 
+
+    <div class="p-2" style="width: 100%">
+        <div class="container">
+            <div class="panel panel-default m-auto" style=" width:100%;float: none;display: block;margin-left: auto;margin-right: auto;">
+                <div class="panel-heading" style="text-align:center">
+                    <h4>看看大家说了啥（共{{weibo.commentNum}}条评论）</h4>
+                </div>
+                <div class="panel-body" >
+                {% include "commentlist.html" %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

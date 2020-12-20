@@ -1,0 +1,63 @@
+{% load static %}
+{% for f in friendList %}
+<div id="u{{f.userid}}">
+    <div class="row">
+        <br>
+        <div class="col-md-2 col-lg-2">
+            <img src="{% static 'img/headpic.jpg' %}" style="height: 100px;width: 100px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
+        </div>
+        <div class="col-md-3 col-lg-3" style="height: 100px">
+            <h4><strong>{{f.username}}</strong></h4>
+            <a style="font-size: 1.2em;color: gray" href="/otherspace/?userid={{f.userid}}">微博：{{f.weiboNum}}</a>
+        </div>
+        <div class="col-md-2 col-lg-2" style="text-align: center;font-size: 1.2em;color: gray;height: 100px;border-left: lightgray 1px solid">
+            <br>
+            <a style="font-size: 1.2em;color: gray" href="/otherspace/?userid={{f.userid}}">粉丝：<br> {{f.fanNum}} </a>
+        </div>
+        <div class="col-md-2 col-lg-2" style="text-align: center;font-size: 1.2em;color: gray;height: 100px;border-left: lightgray 1px solid;border-right: lightgray 1px solid">
+            <br>
+            <a style="font-size: 1.2em;color: gray" href="/otherspace/?userid={{f.userid}}">关注：<br> {{f.friendNum}} </a>
+        </div>
+        <div class="col-md-3 col-lg-3" style="text-align: center">
+            <br>
+            <br>
+            {% if f.isFriend == 1 %}
+            <button id="df{{f.userid}}"class="btn btn-info">取消关注</button>
+            <script>
+                $("#df{{f.userid}}").click(function(){
+                    $.ajax({
+                        type:"POST",
+                        data:{userid:"{{f.userid}}"},
+                        url:"/disFollow/",
+                        dataType:"html",
+                        success:function(result,status,xml){
+                            alert(result)
+                        }
+                    });
+                    $("#df{{f.userid}}").html("已取关");
+                    $("#df{{f.userid}}").attr("disabled","true");
+                });
+            </script>
+            {% else %}
+            <button id="f{{f.userid}}"class="btn btn-info">关注 </button>
+            <script>
+                $("#f{{f.userid}}").click(function(){
+                    $.ajax({
+                        type:"POST",
+                        data:{userid:"{{f.userid}}"},
+                        url:"/follow/",
+                        dataType:"html",
+                        success:function(result,status,xml){
+                            alert(result)
+                        }
+                    });
+                    $("#f{{f.userid}}").html("已关注");
+                    $("#f{{f.userid}}").attr("disabled","true");
+                });
+            </script>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<hr>
+{% endfor %}

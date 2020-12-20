@@ -1,0 +1,17 @@
+{% load static %}
+<div class="p-2" style="width: 100%;">
+    <div class="container">
+        <div class="panel panel-default m-auto" style=" float: none;display: block;margin-left: auto;margin-right: auto;">
+            <div class="panel-body" style="text-align:center">
+                <h1>欢迎来到{{master.username}}的个人空间</h1>
+                <div class="row">
+                    <img src="{% static 'img/headpic.jpg' %}" style="height: 200px;width: 200px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
+                </div>
+                <hr>
+                <div class="row">
+                    <p style="color: gray;font-size: 1.8em">微博：{{master.weiboNum}}&nbsp;&nbsp;&nbsp;&nbsp;粉丝：{{master.fanNum}}&nbsp;&nbsp;&nbsp;&nbsp;关注：{{master.friendNum}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

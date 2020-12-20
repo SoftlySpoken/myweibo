@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>个人空间</title>
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body style="background-color:lightgray">
+{% include "nav.html" %}
+{% include "message.html" %}
+<div class="container d-flex flex-column mb-3" style=" width:100%;float: none;display: block;margin-left: auto;margin-right: auto;background-color: lightgray">
+    {% include "otherspacehead.html" %}
+
+    <div class="p-2" style="width: 100%">
+        <div class="container">
+            <ul class="breadcrumb" style="float: none;display: block;margin-left: auto;margin-right: auto;">
+                <li><span>您当前在：</span></li>
+                <li><a href="#">欢迎页</a></li>
+                <li><a href="#">{{master.username}}的个人空间</a></li>
+                <li><span>欢迎光临！</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="p-2" style="width: 100%">
+        <div class="container">
+            <div class="panel panel-default m-auto" style=" width:100%;float: none;display: block;margin-left: auto;margin-right: auto;">
+                <div class="panel-body" >
+                    <ul id="myTab" class="nav nav-tabs">
+                        <li class="active"><a href="#friend" data-toggle="tab">关注列表</a></li>
+                        <li><a href="#fan" data-toggle="tab">粉丝列表</a></li>
+                        <li><a href="#weibolist" data-toggle="tab">微博列表</a></li>
+                    </ul>
+                     <div id="myTabContent" class="tab-content" >
+                        <div class="tab-pane fade in active" id="friend">
+                            {% include "otherfriendlist.html" %}
+                        </div>
+                        <div class="tab-pane fade" id="fan">
+                            {% include "fanlist.html" %}
+                        </div>
+                        <div class="tab-pane fade" id="weibolist">
+                        <br>
+                            {% include "weibolist.html" %}
+                        <div>
+                     </div>
+                </div>
+            <div>
+        <div>
+    </div>
+
+    
+</div>
+</body>
+</html>

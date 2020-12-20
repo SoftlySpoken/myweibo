@@ -1,0 +1,70 @@
+{% load static %}
+<div class="p-2" style="width: 100%">
+        <div class="container">
+            <div class="panel panel-default m-auto" style=" width:100%;float: none;display: block;margin-left: auto;margin-right: auto;">
+                <div class="panel-body" >
+                    <div id="w{{weibo.weiboId}}">
+                        <div class="row">
+                            <div class="col-md-3 col-lg-4">
+                                <img src="{% static 'img/headpic.jpg' %}" style="height: 180px;width: 180px" class="img-circle">
+                            </div>
+                            <div class="col-md-9 col-lg-8">
+                                <a href="/otherspace/?userid={{w.author.userid}}" style="text-decoration:none;color:black"><h4><strong>{{w.author.username}}</strong></h4></a>
+                                <br>
+                                {% for tw in weibo.trans %}
+                                <strong>@{{tw.username}}：</strong>{{tw.content}} //
+                                {% endfor %}
+                                <br>
+                                <p style="font-size: 1.2em"><span style="color: blue">#{{weibo.topic}}#</span>{{weibo.content}}</p>
+                                <div>
+                                    <p class="text-left">{{weibo.creatTime}}</p>
+                                    <div class="text-right">
+                                    {% if w.isLike == 0 %}
+                                        <button class="btn text-right " style="border: 0px" id="like{{weibo.weiboId}}"><span id="cl{{weibo.weiboId}}"class="glyphicon glyphicon glyphicon-thumbs-up"></span> &nbsp;赞{{weibo.likeNum}}</button>
+                                        <script>
+                                            $("#like{{weibo.weiboId}}").click(function(){
+                                                $.ajax({
+                                                    type:"POST",
+                                                    data:{weiboid:"{{weibo.weiboId}}"},
+                                                    url:"/clickLike/",
+                                                    dataType:"html",
+                                                    success:function(result,status,xml){
+                                                        alert(result)
+                                                    }
+                                                });
+                                                var lnc = {{w.likeNum}};
+                                                lnc += 1;
+                                                $("#like{{weibo.weiboId}}").html('<span id="cl{{w.weiboId}}"class="glyphicon glyphicon glyphicon-thumbs-up"></span> &nbsp;已点赞'+lnc);
+                                                $("#like{{weibo.weiboId}}").attr('disabled', 'true');
+                                            });
+                                        </script>
+                                    {% else %}
+                                        <button id="dlike{{weibo.weiboId}}"class="btn text-right" style="border: 0px"><span id="dl{{weibo.weiboId}}" class="glyphicon glyphicon glyphicon-thumbs-up"></span> &nbsp;已赞{{weibo.likeNum}}</button>
+                                        <script>
+                                            $("#dlike{{weibo.weiboId}}").click(function(){
+                                                $.ajax({
+                                                    type:"POST",
+                                                    data:{weiboid:"{{w.weiboId}}"},
+                                                    url:"/disLike/",
+                                                    dataType:"html",
+                                                    success:function(result,status,xml){
+                                                        alert(result)
+                                                    }
+                                                });
+                                                var lnc = {{weibo.likeNum}};
+                                                lnc -= 1;
+                                                $("#dlike{{weibo.weiboId}}").html('<span id="cl{{weibo.weiboId}}"class="glyphicon glyphicon glyphicon-thumbs-up"></span> &nbsp;已取消赞'+lnc);
+                                                $("#dlike{{weibo.weiboId}}").attr('disabled', 'true');
+                                            });
+                                        </script>
+                                    {% endif %}   
+                                        <a class="btn text-right" href="/comment/?weiboid={{weibo.weiboId}}"><span class="glyphicon glyphicon-pushpin"></span> &nbsp;转发{{weibo.transNum}}</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

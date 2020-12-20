@@ -1,0 +1,11 @@
+body{
+    background:url({% static 'css/myCss.css'%});
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.panel-heading{
+    text-align: center;
+    font-size:3em;
+}
