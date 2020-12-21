@@ -9,9 +9,9 @@ class Connection:
         # self.IP = "172.31.222.78"
         # self.Port = 9001
         self.IP = "39.101.65.125"
-        self.Port = 9000
+        self.Port = 9200
         self.username = "root"
-        self.password = "Dell2020"
+        self.password = "123456"
         self.db_name = "weibo"
         self.con = GstoreConnector.GstoreConnector(self.IP, self.Port, self.username, self.password)
 
