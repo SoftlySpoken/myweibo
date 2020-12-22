@@ -57,7 +57,7 @@ class action:
         res = delete_res(gc.query(sparql_del))
         if not res:
             return False
-        sparql_insert = "insert data {<%s> <followersnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>..}" % (str(ID), num)
+        sparql_insert = "insert data {<%s> <followersnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (str(ID), num)
         res = insert_res(gc.query(sparql_insert))
         if not res:
             return False
@@ -75,7 +75,7 @@ class action:
         res = delete_res(gc.query(sparql_del))
         if not res:
             return False
-        sparql_insert = "insert data {<%s> <friendsnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>..}" % (ID, num)
+        sparql_insert = "insert data {<%s> <friendsnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (ID, num)
         res = insert_res(gc.query(sparql_insert))
         if not res:
             return False
