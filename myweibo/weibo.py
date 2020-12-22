@@ -42,14 +42,14 @@ class Weibo:
         msg['author'] = author_dict
         return msg
 
-    def getWeibo(self, ID, uid):
+    def getWeibo(self, wID, uid):
         msg = {}
         # find author ID
-        ID = str(ID)
+        wID = str(wID)
         uid = str(uid)
         empty = {}
         weibo = {}
-        res = self.getSourceWeibo(ID)
+        res = self.getSourceWeibo(wID)
         if res['status'] != "1":
             msg['status'] = "-1"
             msg['msg'] = "get weibo error"
@@ -57,10 +57,10 @@ class Weibo:
             return msg
         res = res['weibo']
         author_dict = res['author']
-        weibo['weiboId'] = ID
+        weibo['weiboId'] = wID
         weibo['author'] = author_dict
         #处理转发
-        trans = self.gettrans(ID)
+        trans = self.gettrans(wID)
         sourceID = trans['source']
         if trans['num'] == "0": #不为转发
             weibo["hastrans"] = 0
@@ -90,16 +90,17 @@ class Weibo:
         weibo['likeNum'] = res['attitudesnum']
         weibo['commentNum'] = res['commentsnum']
         weibo['transNum'] = res['repostsnum']
+        weibo['isLike'] = self.checkLike(uid,wID)
         msg['status'] = "1"
         msg['msg'] = "get weibo success"
         msg['weibo'] = weibo
         return msg
 
-    def getSourceWeibo(self, ID):
+    def getSourceWeibo(self, wID):
         msg = {}
         empty = {}
         #get other info
-        sparql_get = "select ?y ?z where{<" + "%s> ?y ?z}"%str(ID)
+        sparql_get = "select ?y ?z where{<" + "%s> ?y ?z}"%str(wID)
         res = query_res(gc.query(sparql_get), "011")
         if not res:
             msg['status'] = "-1"
@@ -111,7 +112,7 @@ class Weibo:
             msg['msg'] = "no weibo"
             msg['weibo'] = empty
             return msg
-        author_res = self.getAuthor(ID)
+        author_res = self.getAuthor(wID)
         if author_res['status'] != "1":
             msg['status'] = "-1"
             msg['msg'] = "author query failed"
@@ -122,6 +123,14 @@ class Weibo:
         msg['msg'] = "get weibo"
         msg['weibo'] = res
         return msg
+
+    def checkLike(self,uID,wID):
+        sparql_ask = "ask {<%s> <likes> <%s>.}" % (uID, wID)
+
+        if not ask_res(gc.query(sparql_ask)):
+            return 0
+        else:
+            return 1
 
     def gettrans(self, ID):
         translist = []

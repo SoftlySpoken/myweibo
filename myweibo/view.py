@@ -767,6 +767,8 @@ def clickLike(request):
     info['uid'] = uid
     info['wid'] = wid
     info['flag'] = "1"
+    if not action.setlike(uid,wid):
+        return HttpResponse("抱歉，点赞失败，请刷新后重试")
     res = action.attitudes(info)
     if res['status'] == "0":
         return HttpResponse("已点赞")
@@ -797,6 +799,9 @@ def disLike(request):
     info['flag'] = "-1"
     res = action.attitudes(info)
     print(res)
+    if not action.dislike(uid,wid):
+        return HttpResponse("抱歉，点赞失败，请刷新后重试")
+
     if res['status'] == "0":
         return HttpResponse("已取消赞")
     else:

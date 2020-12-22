@@ -63,6 +63,23 @@ class Action:
             return False
         return True
 
+    def setlike(self, uID, wid):
+        sparql_insert = "insert data {<%s> <likes> <%s>.}" % (str(uID), str(wid))
+        res = insert_res(gc.query(sparql_insert))
+        if not res:
+            return False
+        return True
+
+    def dislike(self, uID, wID):
+        sparql_ask = "ask {<%s> <likes> <%s>.}" % (str(uID), str(wID))
+        if not ask_res(gc.query(sparql_ask)):
+            return False
+        sparql_delete = "delete data {<%s> <likes> <%s>.}" % (str(uID), str(wID))
+        res = insert_res(gc.query(sparql_delete))
+        if not res:
+            return False
+        return True
+
     def friends(self, ID, flag):
         if flag != 1 and flag != -1:
             return False
