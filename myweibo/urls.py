@@ -31,6 +31,7 @@ urlpatterns = [
     url('logout/', view.Logout,name="LogOut"),
     url('square/', view.Square,name="Square"),
     url('myspace/', view.MySpace,name="MySpace"),
+    url('searchPeople/', view.searchPeople,name="searchPeople"),
     url('otherspace/', view.OtherSpace,name="OtherSpace"),
     url('otherUserInfo/', view.OtherUserInfoPage,name="OtherUserInfoPage"),
     url('transfer/', view.transfer,name="transfer"),

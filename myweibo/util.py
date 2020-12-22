@@ -17,7 +17,6 @@ class Connection:
         self.con = GstoreConnector.GstoreConnector(self.IP, self.Port, self.username, self.password)
 
     def query(self, sparql):
-        print(sparql)
         res = self.con.query(self.db_name, "json", sparql)
         return res
 

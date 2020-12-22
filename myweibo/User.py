@@ -161,6 +161,22 @@ class User:
             dict["name"] = res[0]
         return dict
 
+    def getUserID(self, nickName):
+        sparql = "select ?x where{?x <name> \"" + str(nickName) + "\".}"
+        res = gc.query(sparql)
+        res = query_res(res, "100")
+        dict = {}
+        if res == False:
+            dict['status'] = "-1"
+            dict["uid"] = "none"
+        elif res == None:
+            dict['status'] = "0"
+            dict["uid"] = "none"
+        else:
+            dict['status'] = "1"
+            dict["uid"] = res[0]
+        return dict
+
     def getUserInfo(self, userid):
         ID = userid
         sparql = "select ?y ?z where{ <" + str(userid) + "> ?y ?z}"

@@ -1,7 +1,7 @@
 from myweibo.User import *
 from myweibo.weibo import *
 import logging
-w = Weibo()
+weiboClient = Weibo()
 
 
 class Action:
@@ -294,7 +294,7 @@ class Action:
         weibos = []
         msg = {}
         for i in range(len(weibolist)):
-            weibo_res = w.getWeibo(weibolist[i], ID)
+            weibo_res = weiboClient.getWeibo(weibolist[i], ID)
             if weibo_res['status'] != "1":
                 msg['status'] = '0'
                 msg['msg'] = "get all weibos fail"

@@ -58,7 +58,7 @@ def transfer(request):
     uid = str(uid)
     d = {}
     # 下面是生成被转发微博的内容的数据
-    weibo = w.getWeibo(wid, uid)
+    weibo = weiboClient.getWeibo(wid, uid)
     if weibo['status'] == "1":
         weibo = weibo['weibo']
     else:
@@ -151,7 +151,7 @@ def MySpace(request):
 
     # 下面是生成用户微博列表的数据示例
     weibolist = []
-    myweibos = w.getUserWeibo(uid, uid)
+    myweibos = weiboClient.getUserWeibo(uid, uid)
     if myweibos['status'] != "1":
         weibolist = []
     else:
@@ -178,7 +178,7 @@ def Square(request):
     fweibo = action.getfriendsweibo(uid)
     if fweibo['status'] == "1":
         weibolist = weibolist + fweibo['weibos']
-    myweibo = w.getUserWeibo(uid, uid)
+    myweibo = weiboClient.getUserWeibo(uid, uid)
     if myweibo['status'] == "1":
         weibolist = weibolist + myweibo['weibos']
 
@@ -257,7 +257,7 @@ def OtherSpace(request):
 
     master = {
         "userid": str(uid),
-        "username": "卖鱼强",  # 注意这里的id和名字不再从session拿，而是要根据传过来的userid拿
+        "username": " ",  # 注意这里的id和名字不再从session拿，而是要根据传过来的userid拿
         "fanNum": "Nan",
         "weiboNum": "Nan",
         "friendNum": "Nan",
@@ -282,7 +282,7 @@ def OtherSpace(request):
 
     # 下面是生成用户微博列表的数据示例
     weibolist = []
-    myweibos = w.getUserWeibo(uid, mid)
+    myweibos = weiboClient.getUserWeibo(uid, mid)
     if myweibos['status'] != "1":
         weibolist = []
     else:
@@ -433,7 +433,7 @@ def Recommend(request):
         for i in range(len(weiboIDs)):
             wid = weiboIDs[i]
             weibo = {}
-            weibo = w.getWeibo(wid, uid)
+            weibo = weiboClient.getWeibo(wid, uid)
             if weibo['status'] != "1":
                 continue
             weibo = weibo['weibo']
@@ -489,7 +489,7 @@ def LoginCheck(request):
         fweibo = action.getfriendsweibo(uid)
         if fweibo['status'] == "1":
             weibolist = weibolist + fweibo['weibos']
-        myweibo = w.getUserWeibo(uid, uid)
+        myweibo = weiboClient.getUserWeibo(uid, uid)
         if myweibo['status'] == "1":
             weibolist = weibolist + myweibo['weibos']
 
@@ -611,7 +611,7 @@ def addComment(request):
         info['text'] = content
 
     # 执行转发操作
-    repost = w.repostweibo(info)
+    repost = weiboClient.repostweibo(info)
     if repost['status'] != "1":
         messages.success(request, "转发失败！请重试")
     # 不管成不成功都返回成功
@@ -646,13 +646,29 @@ def addWeibo(request):
     info['text'] = content
     info['uid'] = uid
     print(info)
-    post_res = w.postNewWeibo(info)
+    post_res = weiboClient.postNewWeibo(info)
     if post_res['status'] != "1":
         messages.success(request, "发博失败!请重试")
     # 执行发微博操作
     else:
         messages.success(request, "发博成功！可到个人中心查看")
     return HttpResponseRedirect("/myspace")
+
+@csrf_exempt
+def searchPeople(request):
+    '''
+        查询用户
+    '''
+    if request.method == 'POST':
+        target_people = request.POST.get('target_people')
+    else:
+        target_people = request.GET.get('target_people')
+
+    searchResult = user.getUserID(target_people)
+    if searchResult['status'] != "1":
+        messages.success(request, "查无此人")
+        return HttpResponseRedirect("/square")
+    return HttpResponseRedirect("/otherspace/?userid=%s"%(searchResult["uid"]))
 
 
 @csrf_exempt
@@ -671,7 +687,7 @@ def comment(request):
     # 下面是生成被转发微博的内容的数据
     uid = request.session["userid"]
     username = request.session["username"]
-    weibo = w.getWeibo(wid, uid)
+    weibo = weiboClient.getWeibo(wid, uid)
     if weibo['status'] != "1":
         weibo = {}
     else:
@@ -731,7 +747,7 @@ def delWeibo(request):
         wid = request.GET.get("weiboid")
     print(wid)
     # 执行删除微博操作
-    del_res = w.delweibo(wid)
+    del_res = weiboClient.delweibo(wid)
     if del_res["status"] == "1":
         return HttpResponse("已删除")
     else:
