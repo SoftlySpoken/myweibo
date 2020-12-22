@@ -6,8 +6,8 @@ from random import sample
 
 class Connection:
     def __init__(self):
-        # self.IP = "172.31.222.78"
-        # self.Port = 9001
+        # self.IP = "127.0.0.1"
+        # self.Port = 9000
         self.IP = "39.101.65.125"
         self.Port = 9200
         self.username = "root"
