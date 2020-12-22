@@ -14,13 +14,23 @@ $ bin/ghttp weibo 9000
 $ python manage.py runserver
 ```
 
+若遇到
+```
+no such table:django_session
+```
+则执行如下命令
+```
+python manage.py migrate
+```
 ### Bug list
 
 #### 必须解决的问题
 
-- 点赞：默认显示已赞（weibohead.html, weibolist.html）数据中没有存储当前用户是否赞了当前微博的信息）；打开微博详情页时取消赞会失败（view.py中disLike函数，获取到的wid为空）
-- 关注：打开用户详情页时“取消关注”是写死的？（friendlist.html, otherfriendlist.html），点击会失败（view.py中follow函数，获取到的fid为空）；因此还没有测试关注后显示在关注列表、取关功能
-
+- [x] 点赞：默认显示已赞（weibohead.html, weibolist.html）；打开微博详情页时取消赞会失败（view.py中disLike函数，获取到的wid为空）
+- [x] 关注：关注会导致错误
+- 取消关注：打开用户详情页时“取消关注”是写死的？（friendlist.html, otherfriendlist.html），点击会失败（view.py中follow函数，获取到的fid为空）；因此还没有测试关注后显示在关注列表、取关功能
+- 搜索：在个人中心的搜索页面键入他人的昵称，不能正确跳转至详情页面
+- 数据设计：数据中没有存储当前用户是否赞了当前微博的信息
 #### 可以考虑解决的问题
 
 - 目前微博话题是写死的，自己打话题标签没有用，不打话题标签也会被强行加上#我爱海量图#话题

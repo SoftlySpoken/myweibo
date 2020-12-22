@@ -2,8 +2,8 @@ from myweibo.Action import*
 from myweibo.User import*
 
 u = User()
-a = action()
-class recommender:
+a = Action()
+class Recommender:
     def  __init__(self):
         self.name = "recommender"
 
@@ -94,9 +94,9 @@ class recommender:
             info['uid'] = ID
             info['fid'] = users[i]
             dic[users[i]] = int(a.commonfriend(info)['num'])
-        print(dic)
+
         sorted(dic, key=dic.get)
-        print(dic)
+
         msg['status'] = "1"
         msg['msg'] = "get recommending user success"
         msg['list'] = dic
@@ -166,5 +166,5 @@ class recommender:
 
 
 if __name__ == '__main__':
-    r = recommender()
+    r = Recommender()
     print(r.new_recom("1262065265"))

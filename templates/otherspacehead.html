@@ -12,38 +12,38 @@
                     <p style="color: gray;font-size: 1.8em">微博：{{master.weiboNum}}&nbsp;&nbsp;&nbsp;&nbsp;粉丝：{{master.fanNum}}&nbsp;&nbsp;&nbsp;&nbsp;关注：{{master.friendNum}}</p>
                 </div>
                 <div class="row">
-                    {% if f.isFriend == 1 %}
-                    <button id="df{{f.userid}}"class="btn btn-info">取消关注</button>
+                    {% if master.isFriend == 1 %}
+                    <button id="df{{master.userid}}"class="btn btn-info">取消关注</button>
                     <script>
-                        $("#df{{f.userid}}").click(function(){
+                        $("#df{{master.userid}}").click(function(){
                             $.ajax({
                                 type:"POST",
-                                data:{userid:"{{f.userid}}"},
+                                data:{userid:"{{master.userid}}"},
                                 url:"/disFollow/",
                                 dataType:"html",
                                 success:function(result,status,xml){
                                     alert(result)
                                 }
                             });
-                            $("#df{{f.userid}}").html("已取关");
-                            $("#df{{f.userid}}").attr("disabled","true");
+                            $("#df{{master.userid}}").html("已取关");
+                            $("#df{{master.userid}}").attr("disabled","true");
                         });
                     </script>
                     {% else %}
-                    <button id="f{{f.userid}}"class="btn btn-info">关注 </button>
+                    <button id="f{{master.userid}}"class="btn btn-info">关注 </button>
                     <script>
-                        $("#f{{f.userid}}").click(function(){
+                        $("#f{{master.userid}}").click(function(){
                             $.ajax({
                                 type:"POST",
-                                data:{userid:"{{f.userid}}"},
+                                data:{userid:"{{master.userid}}"},
                                 url:"/follow/",
                                 dataType:"html",
                                 success:function(result,status,xml){
                                     alert(result)
                                 }
                             });
-                            $("#f{{f.userid}}").html("已关注");
-                            $("#f{{f.userid}}").attr("disabled","true");
+                            $("#f{{master.userid}}").html("已关注");
+                            $("#f{{master.userid}}").attr("disabled","true");
                         });
                     </script>
                     {% endif %}

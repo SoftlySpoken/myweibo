@@ -19,7 +19,7 @@
                                 <div>
                                     <p class="text-left">{{weibo.creatTime}}</p>
                                     <div class="text-right">
-                                    {% if w.isLike == 0 %}
+                                    {% if weibo.isLike == 0 %}
                                         <button class="btn text-right " style="border: 0px" id="like{{weibo.weiboId}}"><span id="cl{{weibo.weiboId}}"class="glyphicon glyphicon glyphicon-thumbs-up"></span> &nbsp;赞{{weibo.likeNum}}</button>
                                         <script>
                                             $("#like{{weibo.weiboId}}").click(function(){
@@ -32,7 +32,7 @@
                                                         alert(result)
                                                     }
                                                 });
-                                                var lnc = {{w.likeNum}};
+                                                var lnc = {{weibo.likeNum}};
                                                 lnc += 1;
                                                 $("#like{{weibo.weiboId}}").html('<span id="cl{{w.weiboId}}"class="glyphicon glyphicon glyphicon-thumbs-up"></span> &nbsp;已点赞'+lnc);
                                                 $("#like{{weibo.weiboId}}").attr('disabled', 'true');
@@ -44,7 +44,7 @@
                                             $("#dlike{{weibo.weiboId}}").click(function(){
                                                 $.ajax({
                                                     type:"POST",
-                                                    data:{weiboid:"{{w.weiboId}}"},
+                                                    data:{weiboid:"{{weibo.weiboId}}"},
                                                     url:"/disLike/",
                                                     dataType:"html",
                                                     success:function(result,status,xml){

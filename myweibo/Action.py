@@ -1,39 +1,38 @@
 from myweibo.User import *
-from myweibo.weibo import  *
-
+from myweibo.weibo import *
+import logging
 w = Weibo()
-class action:
-    def setattitude(self, ID, flag):
+
+
+class Action:
+    def setattitude(self, wID, flag):
         if flag != 1 and flag != -1:
-            print("1 False")
             return False
-        sparql_search = "select ?z where {<%s> <attitudesnum> ?z.}"%str(ID)
+        sparql_search = "select ?z where {<%s> <attitudesnum> ?z.}" % str(wID)
         res = query_res(gc.query(sparql_search), "001")
-        print(res)
         if not res or res == None:
-            print("2 False")
             return False
         num = str(int(res[0]) + flag)
-        sparql_del = "delete where {<%s> <attitudesnum> ?z.}" % (ID)
+        sparql_del = "delete where {<%s> <attitudesnum> ?z.}" % (wID)
         res = delete_res(gc.query(sparql_del))
         if not res:
-            print("3 False")
             return False
-        sparql_insert = "insert data {<%s> <attitudesnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (ID, num)
+        sparql_insert = "insert data {<%s> <attitudesnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (
+            wID, num)
         res = insert_res(gc.query(sparql_insert))
         if not res:
-            print("4 False")
             return False
         return True
 
     def attitudes(self, info):
+        logging.info("info:"+str(info))
         msg = {}
-        if info.get('wid') == None:
+        if info.get('wid') is None:
             msg['status'] = "-1"
             msg['msg'] = "attitude failed"
             return msg
         wid = info['wid']
-        #TODO:cancel like
+        # TODO:cancel like
         flag = int(info['flag'])
         res = self.setattitude(wid, flag)
         if not res:
@@ -57,7 +56,8 @@ class action:
         res = delete_res(gc.query(sparql_del))
         if not res:
             return False
-        sparql_insert = "insert data {<%s> <followersnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>..}" % (str(ID), num)
+        sparql_insert = "insert data {<%s> <followersnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (
+        str(ID), num)
         res = insert_res(gc.query(sparql_insert))
         if not res:
             return False
@@ -75,7 +75,8 @@ class action:
         res = delete_res(gc.query(sparql_del))
         if not res:
             return False
-        sparql_insert = "insert data {<%s> <friendsnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>..}" % (ID, num)
+        sparql_insert = "insert data {<%s> <friendsnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (
+        ID, num)
         res = insert_res(gc.query(sparql_insert))
         if not res:
             return False
@@ -93,13 +94,13 @@ class action:
             msg['status'] = "-1"
             msg['msg'] = "can not follow yourself"
             return msg
-        #是否已经关注
+        # 是否已经关注
         check = self.is_follower(info)
         if check['status'] == "1":
             msg['status'] = "0"
             msg['msg'] = "follow already"
             return msg
-        sparql_add = "insert data{ <%s> <careFor> <%s> .}"%(lid, rid)
+        sparql_add = "insert data{ <%s> <careFor> <%s> .}" % (lid, rid)
         res = gc.query(sparql_add)
         if not insert_res(res):
             msg['status'] = "-1"
@@ -123,13 +124,13 @@ class action:
             return msg
         lid = info.get("lid")
         rid = info.get("rid")
-        #如果不是粉丝
+        # 如果不是粉丝
         check = self.is_follower(info)
         if check['status'] == "0":
             msg['status'] = "0"
             msg['msg'] = "already not follower"
             return msg
-        sparql_del = "delete data{ <%s> <careFor> <%s> .}"%(lid, rid)
+        sparql_del = "delete data{ <%s> <careFor> <%s> .}" % (lid, rid)
         res = gc.query(sparql_del)
         if not insert_res(res):
             msg['status'] = "-1"
@@ -145,8 +146,7 @@ class action:
                 msg['msg'] = "unfollow failed"
                 return msg
 
-
-    def getfollowerlist(self, uid, limit = "50"):
+    def getfollowerlist(self, uid, limit="50"):
         '''
         :param info:
         :return:dict{status, msg, userlist{dict{id:uid, name:uname}}}
@@ -154,7 +154,7 @@ class action:
         msg = {}
         u = User()
         userlist = []
-        sparql_search = "select ?x where{?x <careFor> <%s>}limit %s"%(str(uid), str(limit))
+        sparql_search = "select ?x where{?x <careFor> <%s>}limit %s" % (str(uid), str(limit))
         res = query_res(gc.query(sparql_search), "100")
         if not res:
             msg['status'] = "-1"
@@ -188,7 +188,7 @@ class action:
             msg['list'] = userlist
             return msg
 
-    def getfriendslist(self, uid, limit = "50"):
+    def getfriendslist(self, uid, limit="50"):
         msg = {}
         u = User()
         userlist = []
@@ -238,8 +238,8 @@ class action:
             return msg
         lid = str(info.get('lid'))
         rid = str(info.get('rid'))
-        sparql_ask = "ask {<%s> <careFor> <%s>.}"%(lid, rid)
-        print(sparql_ask)
+        sparql_ask = "ask {<%s> <careFor> <%s>.}" % (lid, rid)
+
         if not ask_res(gc.query(sparql_ask)):
             msg['status'] = "0"
             msg['msg'] = "not follow"
@@ -249,7 +249,7 @@ class action:
             msg['msg'] = "following"
             return msg
 
-    #查看fid是否是uid的关注
+    # 查看fid是否是uid的关注
     def is_friend(self, info):
         msg = {}
         if info.get('lid') == None or info.get('rid') == None:
@@ -260,7 +260,7 @@ class action:
         rid = str(info.get('rid'))
         info['lid'] = rid
         info['rid'] = lid
-        #右边是左边的粉丝，等于左边是右边的关注
+        # 右边是左边的粉丝，等于左边是右边的关注
         return self.is_follower(info)
 
     def commonfriend(self, info):
@@ -273,7 +273,7 @@ class action:
             return msg
         uid = info.get('uid')
         fid = info.get('fid')
-        sparql = "select ?z where{<%s> <careFor> ?z. <%s> <careFor> ?z.}"%(str(uid), str(fid))
+        sparql = "select ?z where{<%s> <careFor> ?z. <%s> <careFor> ?z.}" % (str(uid), str(fid))
         res = query_res(gc.query(sparql), "001")
         if not res or res is None:
             msg['status'] = "0"
@@ -286,8 +286,8 @@ class action:
         msg['msg'] = "get common friends list success"
         return msg
 
-    def getfriendsweibo(self, ID, limit = "50"):
-        spraql = "select ?z where { <%s> <careFor> ?x. ?z <uid> ?x.} limit %s" % (str(ID),(limit))
+    def getfriendsweibo(self, ID, limit="50"):
+        spraql = "select ?z where { <%s> <careFor> ?x. ?z <uid> ?x.} limit %s" % (str(ID), (limit))
         weibolist = query_res(gc.query(spraql), "001")
         if weibolist is None or not weibolist:
             weibolist = []
@@ -302,8 +302,8 @@ class action:
                 msg['weibos'] = weibos
                 continue
             weibos.append(weibo_res['weibo'])
-        #sort
-        #weibos = sorted(weibos, key=lambda d: datetime.datetime.strptime(d["createTime"], "%Y-%m-%d %H:%M:%S"), reverse=True)
+        # sort
+        # weibos = sorted(weibos, key=lambda d: datetime.datetime.strptime(d["createTime"], "%Y-%m-%d %H:%M:%S"), reverse=True)
         msg['status'] = '1'
         msg['msg'] = "get all weibos success"
         msg['num'] = str(len(weibos))
@@ -312,11 +312,8 @@ class action:
 
 
 if __name__ == '__main__':
-    act = action()
-    info ={
-        'rid':"13120329926",
-        'lid':"1771731262"
+    act = Action()
+    info = {
+        'rid': "13120329926",
+        'lid': "1771731262"
     }
-    print(act.follow(info))
-    #print(act.comment(info))
-    print(act.is_friend(info))

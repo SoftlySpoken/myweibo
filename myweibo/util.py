@@ -3,6 +3,7 @@ import json
 import random
 import datetime
 from random import sample
+import logging
 
 class Connection:
     def __init__(self):
@@ -16,6 +17,7 @@ class Connection:
         self.con = GstoreConnector.GstoreConnector(self.IP, self.Port, self.username, self.password)
 
     def query(self, sparql):
+        print(sparql)
         res = self.con.query(self.db_name, "json", sparql)
         return res
 
@@ -71,13 +73,13 @@ def delete_res(res):
 
 def ask_res(res):
     res = json.loads(res)
-    print(res)
+
     if res['StatusCode'] != 0:
         return None
     else:
         res = res['results']['bindings']
         res = res[0]['_askResult']['value']
-        print("res = " + res)
+
         if res == "false":
             return False
         else:
