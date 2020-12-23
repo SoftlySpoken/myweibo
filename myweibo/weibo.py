@@ -209,7 +209,7 @@ class Weibo:
         if not res:
             return False
         sparql_add = "insert data{<%s> <statusesnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (
-        str(ID), num)
+            str(ID), num)
         res = insert_res(gc.query(sparql_add))
         if not res:
             return False
@@ -277,7 +277,7 @@ class Weibo:
         else:
             attitudesnum = "0"
         sparql_num = "insert data {<%s> <attitudesnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (
-        ID, attitudesnum)
+            ID, attitudesnum)
         if not insert_res(gc.query(sparql_num)):
             msg['status'] = "-1"
             msg['ID'] = ID
@@ -290,7 +290,7 @@ class Weibo:
         else:
             commentsnum = "0"
         sparql_num = "insert data {<%s> <commentsnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (
-        ID, commentsnum)
+            ID, commentsnum)
         if not insert_res(gc.query(sparql_num)):
             msg['status'] = "-1"
             msg['ID'] = ID
@@ -303,7 +303,7 @@ class Weibo:
         else:
             repostsnum = "0"
         sparql_num = "insert data {<%s> <repostsnum> \"%s\"^^<http://www.w3.org/2001/XMLSchema#integer>.}" % (
-        ID, repostsnum)
+            ID, repostsnum)
         if not insert_res(gc.query(sparql_num)):
             msg['status'] = "-1"
             msg['ID'] = ID
@@ -349,12 +349,12 @@ class Weibo:
     def repostweibo(self, info):
         msg = {}
         # 判断uid和wid是否合法
-        if info.get('uid') == None:
+        if info.get('uid') is None:
             msg['status'] = "-1"
             msg['msg'] = "repost error"
             return msg
         uid = info.get('uid')
-        if info.get('wid') == None:
+        if info.get('wid') is None:
             msg['status'] = "-1"
             msg['msg'] = "repost error"
             return msg
