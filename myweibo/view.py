@@ -11,7 +11,7 @@ from myweibo.Recommend import *
 from myweibo.commets import *
 import re
 
-commenting = Comment()
+commenting = CommentClient()
 user = User()
 recommender = Recommender()
 action = Action()

@@ -1,7 +1,7 @@
 from myweibo.User import*
 
 u = User()
-class Comment:
+class CommentClient:
     def __int__(self):
         self.name = "comment"
 
@@ -158,7 +158,7 @@ class Comment:
         return msg
 
 if __name__ == '__main__':
-    c = Comment()
+    c = CommentClient()
     info = {
         'text': '路过，经验+6',
         'author': '1262065265',
