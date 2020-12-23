@@ -9,6 +9,7 @@ from django.views.decorators.csrf import csrf_exempt
 from myweibo.User import *
 from myweibo.Recommend import *
 from myweibo.commets import *
+import re
 
 commenting = Comment()
 user = User()
@@ -359,9 +360,9 @@ def Logout(request):
 
 @csrf_exempt
 def Recommend(request):
-    '''
+    """
     这里和mysquare基本样式一致，只是要进行的数据库操作不同
-    '''
+    """
     d = {}
     uid = request.session['userid']
     name = request.session['username']
@@ -623,9 +624,9 @@ def addComment(request):
 
 @csrf_exempt
 def addWeibo(request):
-    '''
+    """
         发微博
-    '''
+    """
     if request.method == 'POST':
         content = request.POST.get('content')
     else:
@@ -634,18 +635,17 @@ def addWeibo(request):
     uid = request.session["userid"]
     username = request.session["username"]
 
-    '''result = re.findall(r"#[^#]+#", content)
-
-    if len(result) > 0:
-        topic = result[0]
-    else:
-        topic = "我爱海量图""'''
-    topic = "我爱海量图"
     info = {}
-    info['topic'] = topic
-    info['text'] = content
+    ret = re.search("#.*#", content)
+    if ret is None:
+        info['topic'] = "我爱海量图"
+        info['text'] = content
+    else:
+        matchingTopic = ret.group()
+        info['topic'] = matchingTopic[1:-1]
+        info['text'] = content.replace(matchingTopic,'')
     info['uid'] = uid
-    print(info)
+    # print(info)
     post_res = weiboClient.postNewWeibo(info)
     if post_res['status'] != "1":
         messages.success(request, "发博失败!请重试")
