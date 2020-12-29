@@ -15,13 +15,13 @@ class CuckooFilter:
                 if not self.cf.insert(name):
                     self.fail_insert.add(name)
 
-    def insert(self) -> bool:
+    def insert(self,s) -> bool:
         return self.cf.insert(s)
 
-    def contains(self) -> bool:
+    def contains(self,s) -> bool:
         return self.cf.contains(s)
 
-    def delete(self) -> bool:
+    def delete(self,s) -> bool:
         return self.cf.delete(s)
 
     def reportLoadFactor(self) -> str:

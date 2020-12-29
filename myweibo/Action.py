@@ -1,9 +1,8 @@
 from myweibo.User import *
 from myweibo.weibo import *
-from myweibo.CuckooClient import CuckooFilter
 import logging
 weiboClient = Weibo()
-client = CuckooFilter()
+
 
 class Action:
     def setattitude(self, wID, flag):
@@ -198,6 +197,7 @@ class Action:
                     msg['list'] = userlist
                     continue
                 dict['name'] = info['name']
+                dict['gender'] = info['gender']
                 dict['id'] = res[i]
                 userlist.append(dict)
             msg['status'] = "1"
@@ -235,6 +235,7 @@ class Action:
                     msg['list'] = userlist
                     continue
                 dict['name'] = info['name']
+                dict['gender'] = info['gender']
                 dict['id'] = res[i]
                 userlist.append(dict)
             msg['status'] = "1"

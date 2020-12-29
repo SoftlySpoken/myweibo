@@ -31,7 +31,7 @@ def hello(request):
 @csrf_exempt
 def index(request):
     d = {}
-    d["greeting"] = "欢迎来到MyWeibo！"
+    d["greeting"] = "gStore-Weibo"
     return render(request, "index.html", d)
 
 
@@ -47,14 +47,10 @@ def transfer(request):
     '''
     uid = request.session["userid"]
     username = request.session["username"]
-    print("        def transfer(request):")
-    print(request)
-    print(" " * 30)
     if request.method == 'POST':
         wid = request.POST.get('weiboid')  # 获取id
     else:
         wid = request.GET.get("weiboid")
-    print("wid:", wid)
     wid = str(wid)
     uid = str(uid)
     d = {}
@@ -148,6 +144,7 @@ def MySpace(request):
         master["fanNum"] = myinfo['followersnum']
         master['friendNum'] = myinfo['friendsnum']
         master['weiboNum'] = myinfo['statusesnum']
+        master['gender'] = myinfo['gender']
     d["master"] = master
 
     # 下面是生成用户微博列表的数据示例
@@ -216,6 +213,7 @@ def OtherSpace(request):
             friend = {}
             friend['userid'] = fid
             friend['username'] = friends[i]['name']
+            friend['gender'] = friends[i]['gender']
             uinfo = user.getUserInfo(fid)
             if uinfo['status'] != "1":
                 continue
@@ -242,6 +240,7 @@ def OtherSpace(request):
             fan = {}
             fan["userid"] = fid
             fan['username'] = fans[i]['name']
+            fan['gender'] = fans[i]['gender']
             uinfo = user.getUserInfo(fid)
             if uinfo['status'] != "1":
                 continue
@@ -267,6 +266,7 @@ def OtherSpace(request):
     uname = user.getUserName(uid)
     if uname['status'] == "1":
         master['username'] = uname['name']
+        master['gender'] = uname['gender']
     uinfo = user.getUserInfo(uid)
     if uinfo['status'] == "1":
         uinfo = uinfo['content']
@@ -282,7 +282,6 @@ def OtherSpace(request):
     d["master"] = master
 
     # 下面是生成用户微博列表的数据示例
-    weibolist = []
     myweibos = weiboClient.getUserWeibo(uid, mid)
     if myweibos['status'] != "1":
         weibolist = []
@@ -291,8 +290,6 @@ def OtherSpace(request):
     d["weiboList"] = weibolist
     d["username"] = request.session["username"]  # 这个是显示在顶部导航的登录用户名，不用改
 
-    print("-"*30)
-    print(d)
     return render(request, "otherspace.html", d)
 
 
@@ -380,6 +377,7 @@ def Recommend(request):
             if uname['status'] != "1":
                 continue
             friend['username'] = uname['name']
+            friend['gender'] = uname['gender']
             friend['commonNum'] = fdic1[key]
             uinfo = user.getUserInfo(fid)
             if uinfo['status'] != "1":
@@ -410,6 +408,7 @@ def Recommend(request):
                 continue
             fan["userid"] = fid
             fan['username'] = uname['name']
+            fan['gender'] = uname['gender']
             uinfo = user.getUserInfo(fid)
             if uinfo['status'] != "1":
                 continue
@@ -481,7 +480,8 @@ def LoginCheck(request):
         messages.success(request, "登陆成功！欢迎回来，编号%s" % uid)
         # 登录成功后，在cookie中加入用户的id和昵称
         request.session["userid"] = str(uid)
-        request.session["username"] = user.getUserName(str(uid))['name']
+        name_info = user.getUserName(str(uid))
+        request.session["username"] = name_info['name']
 
         # 下面跳转到“我的关注”,因为重定向有问题，所以得执行跟Square()里一样的操作来渲染页面
         # 下面是渲染输入数据静态实例
@@ -497,9 +497,9 @@ def LoginCheck(request):
         weibolist = sorted(weibolist, key=lambda d: datetime.datetime.strptime(d["createTime"], "%Y-%m-%d_%H:%M:%S"),
                            reverse=True)
         d["username"] = request.session["username"]
+        d["gender"] = name_info["gender"]
         d["weiboList"] = weibolist
 
-        print(d)
         return render(request, "square.html", d)
 
     else:
@@ -704,7 +704,6 @@ def follow(request):
     else:
         fid = request.GET.get("userid")
     uid = request.session["userid"]
-    print("in follow, fid = " + fid + ", uid = " + uid)
     info = {}
     info['lid'] = uid
     info['rid'] = fid
@@ -745,7 +744,6 @@ def delWeibo(request):
         wid = request.POST.get('weiboid')  # 获取id
     else:
         wid = request.GET.get("weiboid")
-    print(wid)
     # 执行删除微博操作
     del_res = weiboClient.delweibo(wid)
     if del_res["status"] == "1":
@@ -760,7 +758,6 @@ def clickLike(request):
         wid = request.POST.get('weiboid')  # 获取id
     else:
         wid = request.GET.get("weiboid")
-    print("likelike")
     # 执行点赞操作
     uid = request.session["userid"]
     info = {}
@@ -779,26 +776,16 @@ def clickLike(request):
 @csrf_exempt
 def disLike(request):
     if request.method == 'POST':
-        print('=' * 30)
-        print(request.POST)
-        print('=' * 30)
         wid = request.POST.get('weiboid')  # 获取id
     else:
-        print('-' * 30)
-        print(request.GET)
-        print('-' * 30)
         wid = request.GET.get("weiboid")
     # 执行取消赞操作
-    print("disLike, wid = " + wid)
     uid = request.session["userid"]
     info = {}
-    print(uid)
-    print(wid)
     info['uid'] = uid
     info['wid'] = wid
     info['flag'] = "-1"
     res = action.attitudes(info)
-    print(res)
     if not action.dislike(uid,wid):
         return HttpResponse("抱歉，点赞失败，请刷新后重试")
 

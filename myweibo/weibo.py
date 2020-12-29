@@ -40,6 +40,7 @@ class Weibo:
             return msg
         author_dict['userid'] = res[0]
         author_dict['username'] = name['name']
+        author_dict['gender'] = name['gender']
         msg['status'] = "1"
         msg['msg'] = "get author"
         msg['author'] = author_dict
@@ -263,7 +264,6 @@ class Weibo:
         # topic
         if dict.get('topic') != None:
             topic = dict.get('topic')
-            print("TOPIC: " + topic)
             sparql_topic = "insert data {<%s> <topic> \"%s\".}" % (ID, topic)
             if not insert_res(gc.query(sparql_topic)):
                 msg['status'] = "-1"
@@ -398,29 +398,3 @@ class Weibo:
         msg['msg'] = "repost success"
         return msg
 
-
-def main():
-    w = Weibo()
-    dict = {
-        'uid': "13120329926",
-        'text': "欢迎回来",
-        'topic': "unknown"
-    }
-    repost = {
-        'uid': "13120329926",
-        "wid": "4841720408873664"
-    }
-    repost1 = {
-        'uid': "13120329926",
-        "wid": "4084239431236597",
-        'text': "来了来了",
-    }
-    # print(w.postNewWeibo(dict))
-    # print(w.repostweibo(repost))
-    # print(w.getWeibo("4692841009976180", "13120329926"))
-    print(w.getUserWeibo("123456", "13120329926"))
-    print(w.delweibo("4747870210874902"))
-
-
-if __name__ == '__main__':
-    main()

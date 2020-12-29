@@ -3,9 +3,15 @@
 <div id="u{{f.userid}}">
     <div class="row">
         <br>
-        <div class="col-md-2 col-lg-2">
-            <img src="{% static 'img/headpic.jpg' %}" style="height: 100px;width: 100px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
-        </div>
+        {% if f.gender == 'm' %}
+            <div class="col-md-2 col-lg-2">
+                <img src="{% static 'img/boyhead.jpeg' %}" style="height: 100px;width: 100px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
+            </div>
+        {% else %}
+            <div class="col-md-2 col-lg-2">
+                <img src="{% static 'img/girlhead.jpeg' %}" style="height: 100px;width: 100px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
+            </div>
+        {% endif %}
         <div class="col-md-3 col-lg-3" style="height: 100px">
             <h4><strong>{{f.username}}</strong></h4>
             <a style="font-size: 1.2em;color: gray" href="/otherspace/?userid={{f.userid}}">微博：{{f.weiboNum}}</a>

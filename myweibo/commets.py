@@ -56,7 +56,6 @@ class CommentClient:
             msg['msg'] = "get authors fail"
             msg['ID'] = str(ID)
             return msg
-        name = user_res['name']
         sparql_add1 = "insert data {<%s> <comment> <%s>.}"%(uid, ID)
         sparql_add2 = "insert data {<%s> <posttime> \"%s\".}"%(ID, time)
         sparql_add3 = "insert data {<%s> <content> \"%s\".}"%(ID, text)
@@ -130,6 +129,7 @@ class CommentClient:
             return msg
         author = {}
         author['username'] = name['name']
+        author['gender'] = name['gender']
         author['userid'] = uid
         comment['author'] = author
         msg['status'] = "1"
@@ -156,12 +156,3 @@ class CommentClient:
         msg['status'] = "1"
         msg['msg'] = "delete comment success"
         return msg
-
-if __name__ == '__main__':
-    c = CommentClient()
-    info = {
-        'text': '路过，经验+6',
-        'author': '1262065265',
-        'weiboId': '3707897701312794'
-    }
-    print(c.getallcomment("3707897701312794"))

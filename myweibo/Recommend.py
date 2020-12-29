@@ -164,7 +164,3 @@ class Recommender:
             msg['weibos'] = weibos
             return msg
 
-
-if __name__ == '__main__':
-    r = Recommender()
-    print(r.new_recom("1262065265"))

@@ -3,21 +3,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>登录MyWeibo</title>
+    <title>登录gStore-weibo</title>
     <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body style="background-image:url({% static 'img/back.jpg' %})">
-{% include "nav.html" %}
-{% include "message.html" %}
+<body style="background-image:url({% static 'img/alicization_war_of_underworld-006.jpg' %});background-size: auto;overflow: hidden">
 <div class="container">
+    <div class="row" style="min-height: 50px">
+
+    </div>
     <div class="row" style="min-height: 50px">
 
     </div>
     <div class="form row">
     {%csrf_token%}
-        <div class="panel panel-default" style="background-color: white">
+        <div class="panel panel-default" style="background-color: white;opacity: 0.8">
             <div class="panel-body">
                 <form class="form-horizontal col-sm-offset-3 col-md-offset-3" id="login_form" action="{% url 'LoginCheck'  %}" method="POST">
                     <br>

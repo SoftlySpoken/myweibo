@@ -9,15 +9,19 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body  style="background-image:url({% static 'img/back.jpg' %})">
-{% include "nav.html" %}
-{% include "message.html" %}
-<div class="container">
+<body  style="background-image:url({% static 'img/863145.png' %});
+        background-repeat:no-repeat;background-size:auto;overflow: hidden">
+
+  <div class="row" style="min-height: 50px">
+    </div>
     <div class="row" style="min-height: 50px">
     </div>
-    <div class="form row rounded">
+
+<div class="container" >
+
+    <div class="form row rounded"style="height: 80%;">
     {%csrf_token%}
-        <div class="panel panel-default" style="background-color: white">
+        <div class="panel panel-default" style="opacity: 90%;">
             <div class="panel-body">
                 <form class="form-horizontal col-sm-offset-3 col-md-offset-3 rounded" id="register_form" action = "{% url 'RegisCheck' %}"  method="POST">
                 <br>

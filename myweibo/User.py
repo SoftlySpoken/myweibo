@@ -1,4 +1,6 @@
 from myweibo.util import *
+from myweibo.CuckooClient import CuckooFilter
+cuckooClient = CuckooFilter()
 
 class User:
     def __init__(self):
@@ -75,11 +77,16 @@ class User:
         now = datetime.datetime.now()
         time = now.strftime("%Y-%m-%d_%H:%M:%S")
         created_time = time
-        sparql_unique = "ask {<" + ID + "> ?x ?y}"
-        if ask_res(gc.query(sparql_unique)) == True:
-            msg['status'] = '0'  # 账户已存在
-            msg['msg'] = '用户已存在！'
-            return msg
+
+        # 向cuckoo Filter查询是否有这个用户
+        if cuckooClient.contains(ID):
+            # 有可能有假阳性，向gStore查询以最终确认
+            sparql_unique = "ask {<" + ID + "> ?x ?y}"
+            if ask_res(gc.query(sparql_unique)) == True:
+                msg['status'] = '0'  # 账户已存在
+                msg['msg'] = '用户已存在！'
+                return msg
+        cuckooClient.insert(ID)
         sparql_name = "insert data {<" + ID + "> <name> \"" + name + "\".}"
         sparql_pwd = "insert data {<" + ID + "> <password> \"" + password + "\"^^<http://www.w3.org/2001/XMLSchema#integer>.}"
         sparql_location = "insert data {<" + ID + "> <location> \"" + location + "\".}"
@@ -159,6 +166,20 @@ class User:
         else:
             dict['status'] = "1"
             dict["name"] = res[0]
+
+        sparql = "select ?z where{ <" + str(userid) + "> <gender> ?z}"
+        res = gc.query(sparql)
+        res = query_res(res, "001")
+        if res == False:
+            dict['status'] = "-1"
+            dict["gender"] = "none"
+        elif res == None:
+            dict['status'] = "0"
+            dict["gender"] = "none"
+        else:
+            dict['status'] = "1"
+            dict["gender"] = res[0]
+
         return dict
 
     def getUserID(self, nickName):
@@ -222,6 +243,8 @@ class User:
 
     def delUserInfo(self, ID):
         # 删除用户本身，不删除关注其的关系
+
+        cuckooClient.delete(ID)
         sparql = "delete where {<" + str(ID) + "> ?y ?z.}"
         msg = {}
         if not delete_res(gc.query(sparql)):
@@ -317,34 +340,4 @@ class User:
 
         dict['status'] = '1'
         dict['msg'] = 'update success'
-        return dict;
-
-
-def main():
-    # 测试 创建用户->修改用户信息->查看用户信息->获得密码
-    u = User()
-    dict = {
-        'name': 'zz',
-        'tel': '13120329926',
-        'password': '12345678',
-        'province': '北京',
-        'city': '海淀',
-        'gender': 'f',
-    }
-    modify = {
-        'name': 'zzzz',
-        'gender': 'm',
-        'province': '江西',
-        'city': '吉安'
-    }
-    print(u.delUserInfo("123456"))
-    print(u.setNewUser(dict))
-    print(u.getUserInfo("13120329926"))
-    print(u.setUserInfo(modify))
-    print(u.getUserInfo("13120329926"))
-    print(u.getUserPwd("13120329926"))
-
-
-
-if __name__ == '__main__':
-    main()
+        return dict
