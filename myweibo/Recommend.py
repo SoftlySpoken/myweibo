@@ -77,6 +77,7 @@ class Recommender:
             return msg
 
     def new_recom(self, ID, limit = 50):
+        # 寻找二度节点
         sparql = "select ?x {<%s> <careFor> ?z. ?x <careFor> ?z.}" % (str(ID))
         res = query_res(gc.query(sparql), "100")
         msg = {}
