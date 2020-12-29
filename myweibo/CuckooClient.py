@@ -8,7 +8,7 @@ class CuckooFilter:
     def __init__(self):
         self.fail_insert = set()
         self.cf = cuckoofilter.CuckooFilter(num_buckets=1000000, bucket_size=4)
-        with open("D:\\projects\\gitrepo\\classProject\\SeaGraph\\server\\resource\\screen_names.txt",
+        with open("resource/screen_names.txt",
                   encoding='utf-8') as fin:
             for line in fin:
                 name = line.strip()
