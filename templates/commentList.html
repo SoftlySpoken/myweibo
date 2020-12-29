@@ -2,9 +2,15 @@
 {% for w in commentList  %}
     <div id="w{{w.weiboId}}">
         <div class="row">
-            <div class="col-md-3 col-lg-4">
-                <img src="{% static 'img/headpic.jpg' %}" style="height: 100px;width: 100px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
+            {% if w.author.gender == 'm' %}
+                <div class="col-md-3 col-lg-4">
+                    <img src="{% static 'img/boyhead.jpeg' %}" style="height: 100px;width: 100px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
+                </div>
+            {% else %}
+                <div class="col-md-3 col-lg-4">
+                <img src="{% static 'img/girlhead.jpeg' %}" style="height: 100px;width: 100px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
             </div>
+            {% endif %}
             <div class="col-md-9 col-lg-8">
                 <h5><strong>{{w.author.username}}说：</strong></h5>
                 <br>

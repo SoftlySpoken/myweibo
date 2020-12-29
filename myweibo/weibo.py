@@ -22,6 +22,7 @@ class Weibo:
         author_dict = {}
         sparql_uid = "select ?x {<" + "%s> <uid> ?x .}" % str(ID)
         res = query_res(gc.query(sparql_uid), "100")
+        print("getAuthor",res)
         if not res:
             msg['status'] = "-1"
             msg['msg'] = "author query failed"
@@ -316,16 +317,10 @@ class Weibo:
         msg['msg'] = "post weibo <%s> success" % ID
         return msg
 
-    def delweibo(self, ID):
-        # 删除微博信息
-        sparql = "delete where{<%s> ?y ?z.}" % str(ID)
+    def delweibo(self, wID):
+        # 先得到作者
         msg = {}
-        if not delete_res(gc.query(sparql)):
-            msg['status'] = "-1"
-            msg['msg'] = "delete weibo failed"
-            return msg
-        # 删除用户发送记录和微博数
-        author = self.getAuthor(ID)
+        author = self.getAuthor(wID)
         if author['status'] != "1":
             msg['status'] = "-1"
             msg['msg'] = "delete weibo failed"
@@ -333,7 +328,16 @@ class Weibo:
         else:
             author = author['author']
             uid = author['userid']
-        sparql1 = "delete where{ ?x ?y <%s>.}" % str(ID)
+        # 删除微博信息
+        sparql = "delete where{<%s> ?y ?z.}" % str(wID)
+
+        t = gc.query(sparql)
+        if not delete_res(t):
+            msg['status'] = "-1"
+            msg['msg'] = "delete weibo failed"
+            return msg
+
+        sparql1 = "delete where{ ?x ?y <%s>.}" % str(wID)
         if not delete_res(gc.query(sparql1)):
             msg['status'] = "-1"
             msg['msg'] = "delete weibo failed"
