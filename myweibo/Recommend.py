@@ -140,8 +140,8 @@ class Recommender:
             "select ?x \
              where{ ?x <repostsnum> ?y.\
                     ?x <commentsnum> ?z. ?x <attitudesnum> ?p. \
-                    FILTER(?y > \"500\"^^<http://www.w3.org/2001/XMLSchema#integer>) \
-                    FILTER(?z > \"300\"^^<http://www.w3.org/2001/XMLSchema#integer>) \
+                    FILTER(?y > \"600\"^^<http://www.w3.org/2001/XMLSchema#integer>) \
+                    FILTER(?z > \"500\"^^<http://www.w3.org/2001/XMLSchema#integer>) \
                     FILTER(?p > \"1000\"^^<http://www.w3.org/2001/XMLSchema#integer>) } "
         res = query_res(gc.query(sparql), "100")
         if res == False:

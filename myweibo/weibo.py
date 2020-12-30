@@ -22,7 +22,6 @@ class Weibo:
         author_dict = {}
         sparql_uid = "select ?x {<" + "%s> <uid> ?x .}" % str(ID)
         res = query_res(gc.query(sparql_uid), "100")
-        print("getAuthor",res)
         if not res:
             msg['status'] = "-1"
             msg['msg'] = "author query failed"
