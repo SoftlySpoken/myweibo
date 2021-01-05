@@ -9,7 +9,7 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
-<body  style="background-image:url({% static 'img/back.jpg' %})">
+<body>
 {% include "nav.html" %}
 {% include "message.html" %}
 <div class="container">
@@ -35,7 +35,11 @@
                     </div>
                     <div class="col-md-5 align-items-center" style="text-align:center">
                         <h3>故事还在继续...</h3>
-                        <img src="{% static 'img/head.png' %}" class="img-thumbnail img-responsive">
+                        {% if gender == 'm' %}
+                            <img src="{% static 'img/boyhead.jpeg' %}" style="height: 180px;width: 180px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
+                        {% else %}
+                            <img src="{% static 'img/girlhead.jpeg' %}" style="height: 180px;width: 180px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
+                        {% endif %}
                     </div>
                 </div>
 
