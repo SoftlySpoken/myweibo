@@ -67,9 +67,9 @@ class Recommender:
             msg['users_topic'] = dic_topic
             return msg
 
-    def new_recom(self, ID, limit = 50):
+    def peopleYouMayKnow(self, ID, limit = 50):
         # 寻找二度节点
-        sparql = "select distinct ?x \
+        sparql = "select distinct ?x where\
         {<%s> <careFor> ?z. ?x <careFor> ?z. ?x <followersnum> ?fn. minus {<%s> <careFor> ?x}} \
         order by desc(?fn) limit %s" % (str(ID), str(ID), str(2 * limit))
         res = query_res(gc.query(sparql), "100")

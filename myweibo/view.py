@@ -363,7 +363,7 @@ def Recommend(request):
     d = {}
     uid = request.session['userid']
     name = request.session['username']
-    rec1 = recommender.new_recom(uid)
+    rec1 = recommender.peopleYouMayKnow(uid)
     friendList = []
     if rec1['status'] != "1":
         friendList = []
