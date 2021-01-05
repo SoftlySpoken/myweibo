@@ -12,7 +12,7 @@
                 <img src="{% static 'img/girlhead.jpeg' %}" style="height: 100px;width: 100px;float: none;display: block;margin-left: auto;margin-right: auto;" class="img-circle">
             </div>
         {% endif %}
-        <div class="col-md-3 col-lg-3" style="height: 100px">
+        <div class="col-md-2 col-lg-2" style="height: 100px">
             <h4><strong>{{f.username}}</strong></h4>
             <a style="font-size: 1.2em;color: gray" href="/otherspace/?userid={{f.userid}}">微博：{{f.weiboNum}}</a>
         </div>
@@ -24,7 +24,16 @@
             <br>
             <a style="font-size: 1.2em;color: gray" href="/otherspace/?userid={{f.userid}}">关注：<br> {{f.friendNum}} </a>
         </div>
-        <div class="col-md-3 col-lg-3" style="text-align: center">
+        <div class="col-md-2 col-lg-2" style="text-align: center;font-size: 1.2em;color: gray;height: 100px;border-left: lightgray 1px solid;border-right: lightgray 1px solid">
+            {% if f.has_shared_care == 1 %}
+                <br>
+                <a style="font-size: 1.2em;color: gray" href="/otherspace/?userid={{f.shared_care_uid}}">  <div style="color: #b3d7ff"> {{f.shared_care_name}} </div>  </a> 也关注了Ta!
+            {% elif f.has_shared_topic == 1  %}
+               <br>
+            你们有共同话题：<br> {{f.shared_topic}} </a>
+            {% endif %}
+        </div>
+        <div class="col-md-2 col-lg-2" style="text-align: center">
             <br>
             <br>
             {% if f.isFriend == 1 %}

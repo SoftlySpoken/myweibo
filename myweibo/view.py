@@ -402,11 +402,22 @@ def Recommend(request):
         users_follow = list(rec['users_follow'])
         users_topic = list(rec['users_topic'])
         for i in range(len(users_follow) + len(users_topic)):
+            fan = {'has_shared_care': 0, 'has_shared_topic': 0}
             if i < len(users_follow):
+                # 说明有共同关注的人
                 fid = users_follow[i]
+                users_follow_id = rec['users_follow'][fid]
+                shared_care_name = user.getUserName(users_follow_id)['name']
+                fan['has_shared_care'] = 1
+                fan['shared_care_name'] = shared_care_name
+                fan['shared_care_uid'] = users_follow_id
             else:
+                # 说明有共同发表过的话题
                 fid = users_topic[i - len(users_follow)]
-            fan = {}
+                shared_topic = rec['users_topic'][fid]
+                fan['has_shared_topic'] = 1
+                fan['shared_topic'] = shared_topic
+
             uname = user.getUserName(fid)
             if uname['status'] != "1":
                 continue
