@@ -7,9 +7,9 @@ import logging
 
 class Connection:
     def __init__(self):
-        # self.IP = "127.0.0.1"
-        # self.Port = 9000
-        self.IP = "39.101.65.125"
+        # self.IP = "39.101.65.125"
+        # self.Port = 9200
+        self.IP = "115.27.161.37"
         self.Port = 9200
         self.username = "root"
         self.password = "123456"

@@ -399,9 +399,13 @@ def Recommend(request):
     if rec['status'] != "1":
         fanList = []
     else:
-        users = rec['users']
-        for i in range(len(users)):
-            fid = users[i]
+        users_follow = list(rec['users_follow'])
+        users_topic = list(rec['users_topic'])
+        for i in range(len(users_follow) + len(users_topic)):
+            if i < len(users_follow):
+                fid = users_follow[i]
+            else:
+                fid = users_topic[i - len(users_follow)]
             fan = {}
             uname = user.getUserName(fid)
             if uname['status'] != "1":
