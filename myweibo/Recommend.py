@@ -22,36 +22,7 @@ class Recommender:
         user.reverse()
         return user
 
-    def popularusers(self, limit = "50"):
-        msg = {}
-        users = []
-        sparql = "select ?x ?y ?z where{ ?x <followersnum> ?y.\
-                    ?x <friendsnum> ?z. \
-                    FILTER(?y >\"500000\"^^<http://www.w3.org/2001/XMLSchema#integer>) \
-                    FILTER(?z <\"200\"^^<http://www.w3.org/2001/XMLSchema#integer>) "
-        res = query_res(gc.query(sparql), "111")
-        if res == False:
-            msg['status'] = "1"
-            msg['msg'] = "popularuser recommend error"
-            msg['num'] = str(len(users))
-            msg['users'] = users
-            return msg
-        if res == None :
-            msg['status'] = "0"
-            msg['msg'] = "No popularuser recommend"
-            msg['num'] = str(len(users))
-            msg['users'] = users
-            return msg
-        else:
-            msg['status'] = "1"
-            msg['msg'] = "get recommended popular users"
-            users = self.sort_by_factor(res)
-            msg['num'] = str(len(users))
-            msg['users'] = users
-            return msg
-
-    #两跳
-    # TODO
+    #两
     def users_recom(self, ID, limit = 25):
         msg = {}
         users = []
@@ -121,36 +92,6 @@ class Recommender:
         sorted_tuples = sorted(dic.items(), key=lambda item : item[1], reverse=True)
         dic = {k : v for k, v in sorted_tuples}
 
-        msg['status'] = "1"
-        msg['msg'] = "get recommending user success"
-        msg['list'] = dic
-        return msg
-
-    #共同关注
-    def users_recom1(self, ID, limit = 50):
-        msg = {}
-        ulist = []
-        res = a.getfriendslist(ID, 20)
-        if res['status'] != "1":
-            msg['status'] = "-1"
-            msg['msg'] = "get recommending user fail"
-            msg['list'] = ulist
-            return msg
-        ulist = res['list']
-        users = set()
-        for i in range(len(ulist)):
-            res = a.getfollowerlist(ulist[i]['id'], 5)
-            if res['status'] == "1":
-                tlist = res['list']
-                for j in range(len(tlist)):
-                    users.add(tlist[j]['id'])
-        dic = {}
-        for user in users:
-            info = {}
-            info['uid'] = ID
-            info['fid'] = user
-            dic[user] = int(a.commonfriend(info)['num'])
-        dic = sorted(dic.items(), key=lambda d: d[1], reverse=True)
         msg['status'] = "1"
         msg['msg'] = "get recommending user success"
         msg['list'] = dic
